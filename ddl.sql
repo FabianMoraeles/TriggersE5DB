@@ -23,7 +23,7 @@ constraint cantidad_no_negativa CHECK (cantidad >= 0)
 
 
 -- Tabla pedidos
-CREATE TABLE alquiler (
+CREATE TABLE alquileres (
 id serial Primary Key,
 cliente_id int not null,
 fecha_pedido timestamp default current_timestamp not null	,
@@ -38,7 +38,7 @@ producto_id int not null,
 cantidad int not null,
 precio_unitario decimal(10,2) not null,
 subtotal decimal(10,2) not null,
-Foreign Key (pedido_id) references pedidos(id),
+Foreign Key (pedido_id) references alquileres(id),
 Foreign Key (producto_id) references productos(id)
 );
 
