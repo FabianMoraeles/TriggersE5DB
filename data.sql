@@ -1,5 +1,5 @@
 -- Inserción de Usuarios o clientes.
-INSERT INTO usuarios (nombre, correo, telefono) VALUES
+INSERT INTO usuario (nombre, correo, telefono) VALUES
 ('Carlos López', 'carlos.lopez@example.com', 501234567),
 ('María González', 'maria.gonzalez@example.com', 501234568),
 ('Juan Pérez', 'juan.perez@example.com', 501234569),
@@ -12,7 +12,7 @@ INSERT INTO usuarios (nombre, correo, telefono) VALUES
 ('Gabriela Torres', 'gabriela.torres@example.com', 501234576);
 
 -- Inserción de datos productos.
-INSERT INTO productos (nombre, precio_unitario, cantidad, descripcion) VALUES
+INSERT INTO producto (nombre, precio_unitario, cantidad, descripcion) VALUES
 ('Carpa familiar para 6 personas', 150.00, 10, 'Carpa espaciosa para familias, resistente al clima.'),
 ('Saco de dormir térmico', 60.00, 30, 'Saco de dormir aislante para temperaturas bajas.'),
 ('Mochila de senderismo 60L', 95.00, 20, 'Mochila amplia para excursiones largas.'),
@@ -31,7 +31,7 @@ INSERT INTO productos (nombre, precio_unitario, cantidad, descripcion) VALUES
 
 
 -- Inserción de datos para alquileres.
-INSERT INTO alquileres (cliente_id) VALUES
+INSERT INTO alquiler (cliente_id) VALUES
 (1), (2), (3), (4), (5),
 (6), (7), (8), (9), (10),
 (1), (2), (3), (4), (5),

@@ -46,7 +46,7 @@ $$ LANGUAGE plpgsql;
 
 -- ########################### Trigger After Update #####################################################
 CREATE TRIGGER Update_cantidad_trigger
-AFTER UPDATE ON productos
+AFTER UPDATE ON producto
 FOR EACH ROW
 WHEN (OLD.cantidad <> NEW.cantidad)
 EXECUTE FUNCTION Update_cantidad();
@@ -77,7 +77,7 @@ $$ LANGUAGE plpgsql;
 
 -- ########################### Trigger After Delete #####################################################
 CREATE TRIGGER borrar_detalles_trigger
-AFTER DELETE ON alquileres
+AFTER DELETE ON alquiler
 FOR EACH ROW
 EXECUTE FUNCTION Borrar_detalle_historial();
 
@@ -89,8 +89,8 @@ VALUES
 
 SELECT * FROM detalle_alquiler;
 SELECT * FROM historial;
-SELECT * FROM alquileres;
+SELECT * FROM alquiler;
 
-UPDATE productos
+UPDATE producto
 SET cantidad = 25
 WHERE id = 1;
