@@ -82,3 +82,15 @@ FOR EACH ROW
 EXECUTE FUNCTION Borrar_detalle_historial();
 
 
+-- ########## Querys de Prueba para Trigger Before insert, Trigger after update, Trigger After Delete
+INSERT INTO detalle_alquiler (alquiler_id, producto_id, cantidad, precio_unitario, subtotal)
+VALUES
+(1, 1, 2, 300.00, 0)
+
+SELECT * FROM detalle_alquiler;
+SELECT * FROM historial;
+SELECT * FROM alquileres;
+
+UPDATE productos
+SET cantidad = 25
+WHERE id = 1;
