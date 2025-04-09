@@ -38,7 +38,7 @@ producto_id int not null,
 cantidad int not null,
 precio_unitario decimal(10,2) not null,
 subtotal decimal(10,2) not null,
-Foreign Key (alquiler_id) references alquileres(id),
+Foreign Key (alquiler_id) references alquileres(id) ON DELETE CASCADE,
 Foreign Key (producto_id) references productos(id)
 );
 
