@@ -41,7 +41,7 @@ INSERT INTO alquileres (cliente_id) VALUES
 
 
 -- Inserción de datos asociados con su alquiler y productos. El detalle de cada alquiler.
-INSERT INTO detalle_alquiler (pedido_id, producto_id, cantidad, precio_unitario, subtotal) VALUES
+INSERT INTO detalle_alquiler (alquiler_id, producto_id, cantidad, precio_unitario, subtotal) VALUES
 (1, 1, 2, 150.00, 300.00),
 (2, 2, 1, 60.00, 60.00),
 (3, 3, 1, 95.00, 95.00),
