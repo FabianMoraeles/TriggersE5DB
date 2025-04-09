@@ -26,19 +26,19 @@ constraint cantidad_no_negativa CHECK (cantidad >= 0)
 CREATE TABLE alquileres (
 id serial Primary Key,
 cliente_id int not null,
-fecha_pedido timestamp default current_timestamp not null	,
+fecha_alquiler timestamp default current_timestamp not null	,
 Foreign key (cliente_id) references usuarios(id)
 );
 
 -- Tabla detalle_pedido
 CREATE TABLE detalle_alquiler(
 id serial Primary Key,
-pedido_id int not null,
+alquiler_id int not null,
 producto_id int not null,
 cantidad int not null,
 precio_unitario decimal(10,2) not null,
 subtotal decimal(10,2) not null,
-Foreign Key (pedido_id) references alquileres(id),
+Foreign Key (alquiler_id) references alquileres(id),
 Foreign Key (producto_id) references productos(id)
 );
 
