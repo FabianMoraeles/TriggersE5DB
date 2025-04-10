@@ -108,16 +108,16 @@ $$ LANGUAGE plpgsql;
 
 -- ########################### Trigger After Delete #####################################################
 CREATE TRIGGER truncate_before_trigger
-BEFORE TRUNCATE ON productos
+BEFORE TRUNCATE ON producto
 FOR EACH STATEMENT
-EXECUTE FUNCTION log_before_truncate_productos();
+EXECUTE FUNCTION truncate_before_function();
 
 
 
 -- ########## Querys de Prueba para Trigger Before insert, Trigger after update, Trigger After Delete
 INSERT INTO detalle_alquiler (alquiler_id, producto_id, cantidad, precio_unitario, subtotal)
 VALUES
-(1, 1, 2, 300.00, 0)
+(1, 1, 2, 300.00, 0);
 
 SELECT * FROM detalle_alquiler;
 SELECT * FROM historial;
@@ -127,7 +127,119 @@ UPDATE producto
 SET cantidad = 25
 WHERE id = 1;
 
-#Probar truncate
-TRUNCATE productos CASCADE;
+-- #Probar truncate
+TRUNCATE producto CASCADE;
 
 SELECT * FROM historial ORDER BY id DESC LIMIT 1;
+
+
+-- after insert
+
+CREATE OR REPLACE FUNCTION producto_after_insert()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO historial (
+        entidad,
+        registro_id,
+        valores_anteriores,
+        valores_nuevos,
+        evento
+    ) VALUES (
+        'producto',
+        NEW.id,
+        NULL,
+        CONCAT('id=', NEW.id, ', nombre=', NEW.nombre, ', precio=', NEW.precio_unitario, ', cantidad=', NEW.cantidad),
+        'AFTER INSERT'
+    );
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER producto_after_insert_trigger
+AFTER INSERT ON producto
+FOR EACH ROW
+EXECUTE FUNCTION producto_after_insert();
+
+
+
+CREATE OR REPLACE FUNCTION producto_before_update()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO historial (
+        entidad,
+        registro_id,
+        valores_anteriores,
+        valores_nuevos,
+        evento
+    ) VALUES (
+        'producto',
+        OLD.id,
+        CONCAT('id=', OLD.id, ', nombre=', OLD.nombre, ', precio=', OLD.precio_unitario, ', cantidad=', OLD.cantidad),
+        CONCAT('id=', NEW.id, ', nombre=', NEW.nombre, ', precio=', NEW.precio_unitario, ', cantidad=', NEW.cantidad),
+        'BEFORE UPDATE'
+    );
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER producto_before_update_trigger
+BEFORE UPDATE ON producto
+FOR EACH ROW
+EXECUTE FUNCTION producto_before_update();
+
+
+CREATE OR REPLACE FUNCTION producto_before_delete()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO historial (
+        entidad,
+        registro_id,
+        valores_anteriores,
+        valores_nuevos,
+        evento
+    ) VALUES (
+        'producto',
+        OLD.id,
+        CONCAT('id=', OLD.id, ', nombre=', OLD.nombre, ', precio=', OLD.precio_unitario, ', cantidad=', OLD.cantidad),
+        NULL,
+        'BEFORE DELETE'
+    );
+
+    RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER producto_before_delete_trigger
+BEFORE DELETE ON producto
+FOR EACH ROW
+EXECUTE FUNCTION producto_before_delete();
+
+
+
+CREATE OR REPLACE FUNCTION producto_after_truncate()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO historial (
+        entidad,
+        registro_id,
+        valores_anteriores,
+        valores_nuevos,
+        evento
+    ) VALUES (
+        'producto',
+        -1,
+        NULL,
+        NULL,
+        'AFTER TRUNCATE'
+    );
+
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER producto_after_truncate_trigger
+AFTER TRUNCATE ON producto
+FOR EACH STATEMENT
+EXECUTE FUNCTION producto_after_truncate();
