@@ -133,7 +133,11 @@ TRUNCATE producto CASCADE;
 SELECT * FROM historial ORDER BY id DESC LIMIT 1;
 
 
+<<<<<<< HEAD
+-- -- ########################### Función para after insert en historial ####################################
+=======
 -- after insert
+>>>>>>> 5c6317d828511457a2de6ecd8d0223589b3578e3
 
 CREATE OR REPLACE FUNCTION producto_after_insert()
 RETURNS TRIGGER AS $$
@@ -156,12 +160,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD
+-- ########################### Trigger After insert #####################################################
+=======
+>>>>>>> 5c6317d828511457a2de6ecd8d0223589b3578e3
 CREATE TRIGGER producto_after_insert_trigger
 AFTER INSERT ON producto
 FOR EACH ROW
 EXECUTE FUNCTION producto_after_insert();
 
+<<<<<<< HEAD
+-- -- ########################### Función para before update en historial ####################################
+=======
 
+>>>>>>> 5c6317d828511457a2de6ecd8d0223589b3578e3
 
 CREATE OR REPLACE FUNCTION producto_before_update()
 RETURNS TRIGGER AS $$
@@ -184,12 +196,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD
+-- ########################### Trigger before update #####################################################
+=======
+>>>>>>> 5c6317d828511457a2de6ecd8d0223589b3578e3
 CREATE TRIGGER producto_before_update_trigger
 BEFORE UPDATE ON producto
 FOR EACH ROW
 EXECUTE FUNCTION producto_before_update();
 
+<<<<<<< HEAD
+-- -- ########################### Función para before delete en historial ####################################
+=======
 
+>>>>>>> 5c6317d828511457a2de6ecd8d0223589b3578e3
 CREATE OR REPLACE FUNCTION producto_before_delete()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -211,13 +231,21 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD
+-- ########################### Trigger before Delete #####################################################
+=======
+>>>>>>> 5c6317d828511457a2de6ecd8d0223589b3578e3
 CREATE TRIGGER producto_before_delete_trigger
 BEFORE DELETE ON producto
 FOR EACH ROW
 EXECUTE FUNCTION producto_before_delete();
 
 
+<<<<<<< HEAD
+-- ########################### Función para guardar un truncate en historial ####################################
+=======
 
+>>>>>>> 5c6317d828511457a2de6ecd8d0223589b3578e3
 CREATE OR REPLACE FUNCTION producto_after_truncate()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -239,7 +267,15 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+<<<<<<< HEAD
+-- ########################### Trigger After truncate #####################################################
 CREATE TRIGGER producto_after_truncate_trigger
 AFTER TRUNCATE ON producto
 FOR EACH STATEMENT
 EXECUTE FUNCTION producto_after_truncate();
+=======
+CREATE TRIGGER producto_after_truncate_trigger
+AFTER TRUNCATE ON producto
+FOR EACH STATEMENT
+EXECUTE FUNCTION producto_after_truncate();
+>>>>>>> 5c6317d828511457a2de6ecd8d0223589b3578e3
