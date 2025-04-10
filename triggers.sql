@@ -52,7 +52,7 @@ WHEN (OLD.cantidad <> NEW.cantidad)
 EXECUTE FUNCTION Update_cantidad();
 
 
--- ########################### Función para guardar una actualización de productos ####################################
+-- ########################### Función para guardar en historial un dato borrado ####################################
 CREATE OR REPLACE FUNCTION Borrar_detalle_historial()
 RETURNS TRIGGER AS $$
 BEGIN 
@@ -82,6 +82,38 @@ FOR EACH ROW
 EXECUTE FUNCTION Borrar_detalle_historial();
 
 
+-- ########################### Función para guardar un truncate en historial ####################################
+CREATE OR REPLACE FUNCTION truncate_before_function()
+RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO historial (
+        entidad,
+        registro_id,
+        valores_anteriores,
+        valores_nuevos,
+        evento
+    ) VALUES (
+        'productos',
+        -1,
+        NULL,
+        NULL,
+        'BEFORE TRUNCATE'
+    );
+
+    RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+-- ########################### Trigger After Delete #####################################################
+CREATE TRIGGER truncate_before_trigger
+BEFORE TRUNCATE ON productos
+FOR EACH STATEMENT
+EXECUTE FUNCTION log_before_truncate_productos();
+
+
+
 -- ########## Querys de Prueba para Trigger Before insert, Trigger after update, Trigger After Delete
 INSERT INTO detalle_alquiler (alquiler_id, producto_id, cantidad, precio_unitario, subtotal)
 VALUES
@@ -94,3 +126,8 @@ SELECT * FROM alquiler;
 UPDATE producto
 SET cantidad = 25
 WHERE id = 1;
+
+#Probar truncate
+TRUNCATE productos CASCADE;
+
+SELECT * FROM historial ORDER BY id DESC LIMIT 1;
